@@ -2,13 +2,14 @@ import React from "react"
 import { graphql } from 'gatsby'
 import Layout from '../components/layout'
 import Img from "gatsby-image"
-
+import SEO from "../components/seo"
 
 const RecipePage = ({data}) => (
   <Layout>
+    <SEO title={data.nodeRecipe.title} />
     <div>
       <h1>{data.nodeRecipe.title}</h1>
-      <i><p className="publication-date">{data.nodeRecipe.created}</p></i>
+      <i><p className="publication-date">{data.nodeRecipe.date_created}</p></i>
       <Img fixed={data.nodeRecipe.relationships.field_image.localFile.childImageSharp.fixed} />
       <div class="details" style={{
           display: 'flex',
@@ -31,7 +32,7 @@ export const query = graphql`
   query($slug: String!) {
     nodeRecipe(fields: {slug: {eq: $slug } } ) {
       title
-      created
+      date_created: created(formatString: "MMMM Do, YYYY")
       field_summary {
         processed
       }
